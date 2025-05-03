@@ -12,38 +12,26 @@ aria-hidden="true">&times;</button>
 </div>
 
                   <!-- Voting Ballot -->
-<form method="POST" id="ballotForm" action="{% url 'verify_otp' %}">
+<form method="POST" id="ballotForm" action="#">
   {% csrf_token %}
 <div class="row">
 <div class="col-xs-12">
   <div class="box box-solid" id="">
       <div class="box-header with-border">
-          <h3 class="box-title"><b>Please, you'd need to verify ownership of this
-                  account.</b>
+          <h3 class="box-title"><b>Please, proceed with your voting.</b>
               <hr>
           </h3>
       </div>
       <div class="box-body">
           <div id="candidate_list">
               <p><span class="pull-right">
-                      <a id="request_otp"
+                      <a id="proceed_vote"
                           class="btn btn-success btn-sm btn-flat "><i
-                              class="fa fa-refresh"></i> Request OTP</a>
+                              class="fa fa-check"></i> Proceed</a>
                   </span>
               </p>
           </div>
-          <ul>
-              <p> Kindly provide the OTP sent to your phone number that ends with
-                  **-***-*{{ request.user.voter.phone|slice:"7:" }}</p>
-          </ul>
           <hr />
-          <div class="form-group has-feedback">
-              <input type="text" class="form-control" name="otp" placeholder="OTP"
-                  required>
-              <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-          </div>
-          <button type="submit" class="btn btn-primary btn-flat" name="verify"><i
-            class="fa fa-check-square-o"></i> Verify OTP</button>
 </div>
     </div>
       </div>
@@ -55,33 +43,4 @@ aria-hidden="true">&times;</button>
 {% endblock content %}
 
 {% block custom_js %}
-  <script>
-    $("#request_otp").click(function(){
-      var button =  $("#request_otp");
-      button.attr("disabled",true);
-      $.ajax({
-        url: "{% url 'resend_otp' %}",
-        type: 'GET',
-        
-        success: function(response){
-          console.log(response.data)
-          console.log(response)
-          if (response.error){
-            toastr.error(response.data,"Error occurred while sending OTP");
-          }else{
-
-            toastr.success(response.data,"OTP Response");
-          }
-          button.attr("disabled",false);
-
-        },
-        error: function(response){
-          toastr.error("Please try again later", "Error")
-          button.attr("disabled",false);
-
-        },
-
-      });
-    });
-  </script>
 {% endblock custom_js %}

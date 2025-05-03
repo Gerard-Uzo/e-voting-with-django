@@ -5,8 +5,7 @@ from account.models import CustomUser
 
 class Voter(models.Model):
     admin = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
-    phone = models.CharField(max_length=11, unique=True)  # Used for OTP
-    otp = models.CharField(max_length=10, null=True)
+    matric_number = models.CharField(max_length=11, default='TEMP12345')  # Temporarily removed unique constraint
     verified = models.BooleanField(default=False)
     voted = models.BooleanField(default=False)
     otp_sent = models.IntegerField(default=0)  # Control how many OTPs are sent
